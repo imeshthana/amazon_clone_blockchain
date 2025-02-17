@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+
+// Components
 import Rating from "./Rating";
+
 import close from "../assets/close.svg";
 
 const Product = ({ item, provider, account, dappazon, togglePop }) => {
@@ -23,10 +26,13 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
 
   const buyHandler = async () => {
     const signer = await provider.getSigner();
+
+    // Buy item...
     let transaction = await dappazon
       .connect(signer)
       .purchaseItem(item.id, { value: item.cost });
     await transaction.wait();
+
     setHasBought(true);
   };
 
@@ -38,21 +44,29 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
     <div className="product">
       <div className="product__details">
         <div className="product__image">
-          <img src={item.image} alt="product" />
+          <img src={item.image} alt="Product" />
         </div>
         <div className="product__overview">
           <h1>{item.name}</h1>
+
           <Rating value={item.rating} />
+
           <hr />
+
           <p>{item.address}</p>
+
           <h2>{ethers.utils.formatUnits(item.cost.toString(), "ether")} ETH</h2>
+
           <hr />
+
           <h2>Overview</h2>
+
           <p>
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only
-            five centuries
+            {item.description}
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima rem,
+            iusto, consectetur inventore quod soluta quos qui assumenda aperiam,
+            eveniet doloribus commodi error modi eaque! Iure repudiandae
+            temporibus ex? Optio!
           </p>
         </div>
 
@@ -70,7 +84,7 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
             </strong>
           </p>
 
-          {item.stock > 0 ? <p>In Stock</p> : <p>Out of Stock</p>}
+          {item.stock > 0 ? <p>In Stock.</p> : <p>Out of Stock.</p>}
 
           <button className="product__buy" onClick={buyHandler}>
             Buy Now
@@ -99,6 +113,7 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
             </div>
           )}
         </div>
+
         <button onClick={togglePop} className="product__close">
           <img src={close} alt="Close" />
         </button>
