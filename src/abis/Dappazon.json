@@ -10,13 +10,13 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "id",
+        "name": "buyer",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "orderCount",
+        "name": "orderId",
         "type": "uint256"
       },
       {

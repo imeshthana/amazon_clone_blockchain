@@ -7,15 +7,6 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
   const [order, setOrder] = useState(null);
   const [hasBought, setHasBought] = useState(false);
 
-  const buyHandler = async () => {
-    const signer = await provider.getSigner();
-    let transaction = dappazon
-      .connect(signer)
-      .purchaseItem(item.id, { value: item.cost });
-    await transaction.wait();
-    setHasBought(true);
-  };
-
   const fetchDetails = async () => {
     const events = await dappazon.queryFilter("Buy");
     const orders = events.filter(
@@ -28,6 +19,15 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
 
     const order = await dappazon.orders(account, orders[0].args.orderId);
     setOrder(order);
+  };
+
+  const buyHandler = async () => {
+    const signer = await provider.getSigner();
+    let transaction = await dappazon
+      .connect(signer)
+      .purchaseItem(item.id, { value: item.cost });
+    await transaction.wait();
+    setHasBought(true);
   };
 
   useEffect(() => {
